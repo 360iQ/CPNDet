@@ -150,37 +150,37 @@ def post_process(db, debug, num_images, weight_exp, merge_bbox, categories,
             for j in range(1, categories + 1):
                 keep_inds = (top_bboxes[image_id][j][:, -1] >= thresh)
                 top_bboxes[image_id][j] = top_bboxes[image_id][j][keep_inds]
-#         if debug:
-#             image_file = db.image_file(ind)
-#             image      = cv2.imread(image_file)
-#             im         = image[:, :, (2, 1, 0)]
-#             fig, ax    = plt.subplots(figsize=(12, 12)) 
-#             fig        = ax.imshow(im, aspect='equal')
-#             plt.axis('off')
-#             fig.axes.get_xaxis().set_visible(False)
-#             fig.axes.get_yaxis().set_visible(False)
-#             #bboxes = {}
-#             for j in range(1, categories + 1):
-#                 keep_inds = (top_bboxes[image_id][j][:, -1] >= 0)
-#                 cat_name  = db.class_name(j)
-#                 for bbox in top_bboxes[image_id][j][keep_inds]:
-#                   bbox  = bbox[0:4].astype(np.int32)
-#                   xmin     = bbox[0]
-#                   ymin     = bbox[1]
-#                   xmax     = bbox[2]
-#                   ymax     = bbox[3]
-#                   #if (xmax - xmin) * (ymax - ymin) > 5184:
-#                   ax.add_patch(plt.Rectangle((xmin, ymin),xmax - xmin, ymax - ymin, fill=False, edgecolor= colours[j-1], 
-#                                linewidth=4.0))
-#                   ax.text(xmin+1, ymin-3, '{:s}'.format(cat_name), bbox=dict(facecolor= colours[j-1], ec='black', lw=2,alpha=0.5),
-#                           fontsize=15, color='white', weight='bold')
+        if debug:
+            image_file = db.image_file(ind)
+            image      = cv2.imread(image_file)
+            im         = image[:, :, (2, 1, 0)]
+            fig, ax    = plt.subplots(figsize=(12, 12))
+            fig        = ax.imshow(im, aspect='equal')
+            plt.axis('off')
+            fig.axes.get_xaxis().set_visible(False)
+            fig.axes.get_yaxis().set_visible(False)
+            #bboxes = {}
+            for j in range(1, categories + 1):
+                keep_inds = (top_bboxes[image_id][j][:, -1] >= 0)
+                cat_name  = db.class_name(j)
+                for bbox in top_bboxes[image_id][j][keep_inds]:
+                  bbox  = bbox[0:4].astype(np.int32)
+                  xmin     = bbox[0]
+                  ymin     = bbox[1]
+                  xmax     = bbox[2]
+                  ymax     = bbox[3]
+                  #if (xmax - xmin) * (ymax - ymin) > 5184:
+                  ax.add_patch(plt.Rectangle((xmin, ymin),xmax - xmin, ymax - ymin, fill=False, edgecolor= colours[j-1],
+                               linewidth=4.0))
+                  ax.text(xmin+1, ymin-3, '{:s}'.format(cat_name), bbox=dict(facecolor= colours[j-1], ec='black', lw=2,alpha=0.5),
+                          fontsize=15, color='white', weight='bold')
 
-#             #debug_file1 = os.path.join("validations/{}.pdf".format(db_ind))
-#             #debug_file2 = os.path.join("validations/{}.jpg".format(db_ind))
-#             #plt.savefig(debug_file1)
-#             #plt.savefig(debug_file2)
-#             plt.close()
-#             #cv2.imwrite(debug_file, image, [int(cv2.IMWRITE_JPEG_QUALITY), 100])
+            debug_file1 = os.path.join("validations/{}.pdf".format(db_ind))
+            debug_file2 = os.path.join("validations/{}.jpg".format(db_ind))
+            plt.savefig(debug_file1)
+            plt.savefig(debug_file2)
+            plt.close()
+            #cv2.imwrite(debug_file, image, [int(cv2.IMWRITE_JPEG_QUALITY), 100])
 
     top_bboxes_queue.put(top_bboxes)
     
