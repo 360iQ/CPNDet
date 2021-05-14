@@ -43,13 +43,14 @@ def make_dirs(directories):
             os.makedirs(directory)
 
 def test(db, cfg_file, split, testiter, debug=False, no_flip = False, suffix=None): 
-    result_dir = system_configs.result_dir
+    result_dir = csv_dir = system_configs.result_dir
     result_dir = os.path.join(result_dir, str(testiter), split)
+    # csv_dir = os.path.join(result_dir, "csv_results")
 
     if suffix is not None:
         result_dir = os.path.join(result_dir, suffix)
 
-    make_dirs([result_dir])
+    make_dirs([result_dir, csv_dir])
 
     test_iter = system_configs.max_iter if testiter is None else testiter
     print("loading parameters at iteration: {}".format(test_iter))
@@ -62,9 +63,12 @@ def test(db, cfg_file, split, testiter, debug=False, no_flip = False, suffix=Non
     test_file = "test.{}".format(db.data)
     testing = importlib.import_module(test_file).testing
 
-    nnet.cuda()
+    if torch.cuda.is_available():
+        nnet.cuda()
+    else:
+        print("CUDA is not available")
     nnet.eval_mode()
-    testing(db, cfg_file , nnet, result_dir, debug=debug, no_flip = no_flip)
+    testing(db, cfg_file , nnet, result_dir, csv_dir, test_iter, debug=debug, no_flip = no_flip)
 
 if __name__ == "__main__":
     args = parse_args()
@@ -80,6 +84,7 @@ if __name__ == "__main__":
             
     configs["system"]["snapshot_name"] = args.cfg_file
     system_configs.update_config(configs["system"])
+    system_configs.update_config(configs["db"])
 
     train_split = system_configs.train_split
     val_split   = system_configs.val_split

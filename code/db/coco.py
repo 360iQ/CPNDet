@@ -21,16 +21,18 @@ class MSCOCO(DETECTION):
         cache_dir  = system_configs.cache_dir
 
         self._split = split
+        print("\n", split, "\n")
         self._dataset = {
             "trainval": "train",
             "minival": "valid",
             "testdev": "test"
         }[self._split]
         
-        self._coco_dir = os.path.join(data_dir, "coco")
+        self._coco_dir = os.path.join(data_dir, "coco/datasets/{}class".format(db_config['categories']))
 
         self._label_dir  = os.path.join(self._coco_dir, "annotations")
-        self._label_file = os.path.join(self._label_dir, "head_{}.json")
+        #TO DO: fix hardcoding name
+        self._label_file = os.path.join(self._label_dir, "{}classes_v1.0_{}.json".format(db_config['categories'], {}))
         self._label_file = self._label_file.format(self._dataset)
 
         self._image_dir  = os.path.join(self._coco_dir, "images", self._dataset)
@@ -45,10 +47,8 @@ class MSCOCO(DETECTION):
             [-0.5832747, 0.00994535, -0.81221408],
             [-0.56089297, 0.71832671, 0.41158938]
         ], dtype=np.float32)
+        self._cat_ids = list(range(db_config['categories']))
 
-        self._cat_ids = [
-            0
-        ]
         self._classes = {
             ind + 1: cat_id for ind, cat_id in enumerate(self._cat_ids)
         }
@@ -159,8 +159,8 @@ class MSCOCO(DETECTION):
         return detections
 
     def evaluate(self, result_json, cls_ids, image_ids, gt_json=None):
-        if self._split == "testdev":
-            return None
+        # if self._split == "testdev":
+        #     return None
 
         coco = self._coco if gt_json is None else COCO(gt_json)
 
@@ -177,4 +177,4 @@ class MSCOCO(DETECTION):
         #coco_eval.evaluate_fd()
         #coco_eval.accumulate_fd()
         #coco_eval.summarize_fd()
-        return coco_eval.stats[0], coco_eval.stats[12:]
+        return coco_eval.stats#coco_eval.stats[0], coco_eval.stats[12:]

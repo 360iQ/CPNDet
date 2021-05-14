@@ -87,7 +87,9 @@ def kp_detection(db, k_ind, data_aug, debug):
 
         # reading image
         image_file = db.image_file(db_ind)
+#        print(image_file)
         image      = cv2.imread(image_file)
+#        print(type(image))
 
         # reading detections
         detections = db.detections(db_ind)
@@ -109,7 +111,7 @@ def kp_detection(db, k_ind, data_aug, debug):
             image[:] = image[:, ::-1, :]
             width    = image.shape[1]
             detections[:, [0, 2]] = width - detections[:, [2, 0]] - 1
-            
+
         while detections.shape[0] == 0:
             db_ind = db.db_inds[k_ind]
             k_ind  = (k_ind + 1) % db_size

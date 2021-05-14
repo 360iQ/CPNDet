@@ -2,7 +2,8 @@
 import os
 import pdb
 import warnings
-warnings.filterwarnings("ignore", category=UserWarning)
+warnings.filterwarnings("ignore")
+#warnings.filterwarnings("ignore", category=DeprecationWarning) 
 import json
 import torch
 import numpy as np
@@ -152,6 +153,7 @@ def train(training_dbs, validation_db, start_iter=0):
                 validation = pinned_validation_queue.get(block=True)
                 validation_loss = nnet.validate(**validation)
                 print("validation loss at iteration {}: {}".format(iteration, validation_loss.item()))
+
                 nnet.train_mode()
 
             if iteration % snapshot == 0:
@@ -180,6 +182,7 @@ if __name__ == "__main__":
             
     configs["system"]["snapshot_name"] = args.cfg_file
     system_configs.update_config(configs["system"])
+    system_configs.update_config(configs["db"])
 
     train_split = system_configs.train_split
     val_split   = system_configs.val_split
