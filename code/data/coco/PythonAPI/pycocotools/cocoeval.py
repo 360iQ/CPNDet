@@ -727,6 +727,54 @@ class COCOeval:
         toc = time.time()
         print('DONE (t={:0.2f}s).'.format(toc - tic))
 
+    def summarize_fd(self):
+        '''
+        Compute and display summary metrics for evaluation results.
+        Note this functin can *only* be applied on the default parameter setting
+        '''
+
+        def _summarize(ap=1, iouThr=None, areaRng='all', maxDets=100):
+            p = self.params
+            iStr = ' {:<18} {} @[ IoU={:<9} | area={:>6s} | maxDets={:>3d} ] = {:0.3f}'
+            titleStr = 'False discovery'
+            typeStr = '(FD)'
+            iouStr = '{:0.2f}:{:0.2f}'.format(p.iouThrs_fd[0], p.iouThrs_fd[-1]) \
+                if iouThr is None else '{:0.2f}'.format(iouThr)
+
+            aind = [i for i, aRng in enumerate(p.areaRngLbl) if aRng == areaRng]
+            mind = [i for i, mDet in enumerate(p.maxDets) if mDet == maxDets]
+            if ap == 1:
+                # dimension of precision: [TxRxKxAxM]
+                s = self.eval['precision']
+                # IoU
+                if iouThr is not None:
+                    t = np.where(iouThr == p.iouThrs_fd)[0]
+                    s = s[t]
+                s = s[:, :, :, aind, mind]
+            if len(s[s > -1]) == 0:
+                mean_s = -1
+            else:
+                mean_s = np.mean(1 - s[s > -1])
+            print(iStr.format(titleStr, typeStr, iouStr, areaRng, maxDets, mean_s))
+            return mean_s
+
+        def _summarizeDets():
+            stats = np.zeros((7,))
+            stats[0] = _summarize(1)
+            stats[1] = _summarize(1, iouThr=.05, maxDets=self.params.maxDets[2])
+            stats[2] = _summarize(1, iouThr=.25, maxDets=self.params.maxDets[2])
+            stats[3] = _summarize(1, iouThr=.5, maxDets=self.params.maxDets[2])
+            stats[4] = _summarize(1, areaRng='small', maxDets=self.params.maxDets[2])
+            stats[5] = _summarize(1, areaRng='medium', maxDets=self.params.maxDets[2])
+            stats[6] = _summarize(1, areaRng='large', maxDets=self.params.maxDets[2])
+            return stats
+
+        if not self.eval:
+            raise Exception('Please run accumulate() first')
+        iouType = self.params.iouType
+        if iouType == 'segm' or iouType == 'bbox':
+            summarize = _summarizeDets
+        self.stats = summarize()
 
 class Params:
     '''
