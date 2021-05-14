@@ -176,7 +176,7 @@ def post_process(db, debug, num_images, weight_exp, merge_bbox, categories,
                           fontsize=15, color='white', weight='bold')
 
             #debug_file1 = os.path.join("validations/{}.pdf".format(db_ind))
-            debug_file2 = os.path.join("validations/{}.jpg".format(ind))
+            debug_file2 = os.path.join("validations/{}.jpg".format(image_file))
             #plt.savefig(debug_file1)
             plt.savefig(debug_file2)
             plt.close()
