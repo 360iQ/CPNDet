@@ -739,6 +739,7 @@ class Params:
         #self.iouThrs = np.linspace(.5, 0.95, np.round((0.95 - .5) / .05) + 1, endpoint=True)
         #self.recThrs = np.linspace(.0, 1.00, np.round((1.00 - .0) / .01) + 1, endpoint=True)
         # fixed as in https://github.com/cocodataset/cocoapi/issues/356
+        self.iouThrs_fd = np.linspace(.05, 0.5, int(np.round((0.5 - .05) / .05) + 1), endpoint=True)
         self.iouThrs = np.linspace(.5, 0.95, int(np.round((0.95 - .5) / .05)) + 1, endpoint=True)
         self.recThrs = np.linspace(.0, 1.00, int(np.round((1.00 - .0) / .01)) + 1, endpoint=True)
         self.maxDets = [1, 10, 100]
