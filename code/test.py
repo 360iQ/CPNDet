@@ -16,7 +16,7 @@ from nnet.py_factory import NetworkFactory
 from db.datasets import datasets
 
 torch.backends.cudnn.benchmark = False
-torch.set_num_threads(512)
+torch.set_num_threads(256)
 
 
 def parse_args():

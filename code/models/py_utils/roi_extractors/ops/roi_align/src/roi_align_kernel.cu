@@ -10,7 +10,7 @@
   for (int i = blockIdx.x * blockDim.x + threadIdx.x; i < n; \
        i += blockDim.x * gridDim.x)
 
-#define THREADS_PER_BLOCK 1024
+#define THREADS_PER_BLOCK 256
 
 inline int GET_BLOCKS(const int N) {
   int optimal_block_num = (N + THREADS_PER_BLOCK - 1) / THREADS_PER_BLOCK;
@@ -66,7 +66,7 @@ __device__ scalar_t bilinear_interpolate(const scalar_t *bottom_data,
 }
 
 template <typename scalar_t>
-__launch_bounds__(512)
+__launch_bounds__(256)
 __global__ void ROIAlignForward(const int nthreads, const scalar_t *bottom_data,
                                 const scalar_t *bottom_rois,
                                 const scalar_t spatial_scale,
