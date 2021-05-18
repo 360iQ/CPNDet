@@ -7,6 +7,7 @@
 #include <cmath>
 #include <vector>
 
+const int num_threads = 512;
 
 int ROIAlignForwardLaucher(const at::Tensor features, const at::Tensor rois,
                            const float spatial_scale, const int sample_num,
