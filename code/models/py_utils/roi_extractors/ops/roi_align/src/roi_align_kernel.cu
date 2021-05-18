@@ -66,6 +66,7 @@ __device__ scalar_t bilinear_interpolate(const scalar_t *bottom_data,
 }
 
 template <typename scalar_t>
+__launch_bounds__(512)
 __global__ void ROIAlignForward(const int nthreads, const scalar_t *bottom_data,
                                 const scalar_t *bottom_rois,
                                 const scalar_t spatial_scale,
