@@ -1,0 +1,2 @@
+,AP @[IoU=0.50:0.95|area=all|maxDets=10],AP @[IoU=0.5|area=all|maxDets=100],AP @[IoU=0.75|area=all|maxDets=100],AR @[IoU=0.50:0.95|area=all|maxDets=10],AR @[IoU=0.50:0.95|area=all|maxDets=100],Dataset,Model,Backbone,Interpolation,Snapshot,FPS,Split,DeviceType,DeviceName
+0,0.6642655005131038,0.9328862704576504,0.7745200326763894,0.6637796464062713,0.7300660405380099,2class,CPNDET,DLA34,None,20000,1.67,minival,GPU,NVIDIA Tegra X2

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+torch.cuda.empty_cache()#!/usr/bin/env python
 import os
 import pdb
 import json
@@ -17,7 +17,7 @@ from db.datasets import datasets
 
 torch.backends.cudnn.benchmark = False
 #torch.set_num_threads(256)
-#torch.cuda.empty_cache()
+
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Test CornerNet")
