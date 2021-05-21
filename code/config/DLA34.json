@@ -5,6 +5,6 @@
   "stepsize": 16000, "snapshot": 4000, "chunk_sizes": [1], "data_dir": "./data"},
   "db": {"rand_scale_min": 0.7, "rand_scale_max": 0.8, "rand_scale_step": 0.1, "rand_scales": null,
     "rand_crop": true, "rand_color": true, "border": 128, "gaussian_bump": true, "input_size": [511, 511],
-    "output_sizes": [[128, 128]], "test_scales": [0.7], "top_k": 70, "categories": 2, "ae_threshold": 0.8, "iou_threshold": 0.8,
-    "nms_threshold": 0.7, "max_per_image": 30, "featmap_strides": 1, "roi_sample_num": 1, "gr_threshold": 0.2, "interpolation_mode": "None",
+    "output_sizes": [[128, 128]], "test_scales": [0.5], "top_k": 70, "categories": 2, "ae_threshold": 0.5, "iou_threshold": 0.7,
+    "nms_threshold": 0.5, "max_per_image": 25, "featmap_strides": 1, "roi_sample_num": 1, "gr_threshold": 0.2, "interpolation_mode": "None",
     "merge_bbox": true, "weight_exp": 10, "max_iter": 20000}}
